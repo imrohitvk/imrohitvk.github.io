@@ -6,7 +6,7 @@ title: imrohitvk
 email: imrohitvk@gmail.com
 description: >-
   Personal website of Rohit Sharma — PhD Research Scholar & Teaching Assistant at IIT Ropar (CGPA: 8.8). B.Tech (CSE) from JUIT with 9.15 CGPA. Skilled in MERN Stack, Python, Machine Learning, Deep Learning, and Data Science.
-baseurl: /imrohitvk/ # the subpath of your site, e.g. /blog
+baseurl: "" # empty for user/org GitHub Pages site
 url: https://imrohitvk.github.io # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: imrohitvk
 github_username: imrohitvk

@@ -9,7 +9,7 @@ Hi, I'm **Rohit Sharma** — a PhD Research Scholar at **IIT Ropar**, a self-mot
 
 A responsible, enthusiastic, reliable, and hard-working individual with a strong foundation in software engineering and research. Currently pursuing my PhD in CSE at IIT Ropar while bringing hands-on industry experience from my time at Accenture as an Associate Software Engineer. Skilled in Python Programming, Data Science, Machine Learning, Deep Learning, MySQL, MongoDB, Hadoop, Apache Spark, HTML, CSS, and Tableau. A mature team worker, adaptable to all challenging situations, and able to work well both in a team and independently.
 
-Check out my [Projects](/imrohitvk/projects/) to see what I've built.
+Check out my [Projects](/projects/) to see what I've built.
 
 ---
 

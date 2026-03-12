@@ -2,7 +2,7 @@
 
 Personal website of **Rohit Sharma**, built with [Jekyll](https://jekyllrb.com/) and hosted on [GitHub Pages](https://pages.github.com/).
 
-🌐 **Live site:** [imrohitvk.github.io/imrohitvk](https://imrohitvk.github.io/imrohitvk/)
+🌐 **Live site:** [imrohitvk.github.io](https://imrohitvk.github.io)
 
 ---
 
@@ -36,4 +36,4 @@ bundle install
 bundle exec jekyll serve
 ```
 
-Site will be available at `http://localhost:4000/imrohitvk/`.
+Site will be available at `http://localhost:4000/`.
