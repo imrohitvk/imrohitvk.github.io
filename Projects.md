@@ -8,23 +8,6 @@ A showcase of my personal, academic, and research projects.
 
 ---
 
-### Spandan
-**Jun 2025 – Present**  
-*Associated with Indian Institute of Technology, Ropar*
-
-**Tech Stack:** React, TypeScript, Node.js, Express.js, MongoDB, OpenAI Whisper, Open Source LLMs  
-**Repo:** [vicharanashala/poll-question-gen](https://github.com/vicharanashala/poll-question-gen){:target="_blank"}
-
-A live classroom interaction platform that transforms passive lectures into active learning. Spandan captures teacher speech in real-time, converts it into transcripts via ASR, automatically generates relevant questions using LLMs, and presents them to students through a dedicated portal for instant interaction and assessment.
-
-**Highlights:**
-- Real-time speech capture and transcription using OpenAI Whisper
-- Automatic quiz question generation from live lecture content
-- Student answer portal with live engagement tracking
-- Teacher dashboard with session analytics and participation monitoring
-
----
-
 ### Vi-SlideS
 **Dec 2025 – Present**  
 *Associated with Indian Institute of Technology, Ropar*
@@ -39,6 +22,23 @@ An AI-powered adaptive classroom platform that makes teaching question-driven. A
 - Smart triage: instant AI responses for simple questions, teacher escalation for complex ones
 - Real-time question flow with anonymous/identified submission options
 - Class mood and knowledge-gap detection via NLP sentiment analysis
+
+---
+
+### Spandan
+**Jun 2025 – Present**  
+*Associated with Indian Institute of Technology, Ropar*
+
+**Tech Stack:** React, TypeScript, Node.js, Express.js, MongoDB, OpenAI Whisper, Open Source LLMs  
+**Repo:** [vicharanashala/poll-question-gen](https://github.com/vicharanashala/poll-question-gen){:target="_blank"}
+
+A live classroom interaction platform that transforms passive lectures into active learning. Spandan captures teacher speech in real-time, converts it into transcripts via ASR, automatically generates relevant questions using LLMs, and presents them to students through a dedicated portal for instant interaction and assessment.
+
+**Highlights:**
+- Real-time speech capture and transcription using OpenAI Whisper
+- Automatic quiz question generation from live lecture content
+- Student answer portal with live engagement tracking
+- Teacher dashboard with session analytics and participation monitoring
 
 ---
 
