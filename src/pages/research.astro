@@ -1,0 +1,44 @@
+---
+import Base from "../layouts/Base.astro";
+import PaperCard from "../components/PaperCard.astro";
+import Icon from "../components/Icon.astro";
+import { papers, researchThemes } from "../data/research";
+---
+<Base title="Research" description="Research by Rohit Sharma on live classroom polling, engagement and educational measurement, with papers on arXiv.">
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Research</p>
+      <h1>Reading the live classroom</h1>
+      <p class="lead">
+        I work with a large, real deployment of live classroom polls: 47 sessions, 604 questions and over 340,000 responses from
+        about 2,800 learners. The papers below ask what those polls do, how well they measure, and what they reveal beyond the answer key.
+      </p>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="container grid grid-3">
+      {researchThemes.map((t, i) => (
+        <div class="card reveal theme" style={`--c:${["#1e5a7a", "#2a9d8f", "#e76f51"][i]}`}>
+          <span class="ic"><Icon name={t.icon} size={22} /></span>
+          <h3>{t.title}</h3>
+          <p class="muted">{t.text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section soft">
+    <div class="container">
+      <p class="eyebrow">Preprints</p>
+      <h2>Papers</h2>
+      <div class="grid list">{papers.map((p, i) => <div class="reveal"><PaperCard paper={p} index={i + 1} full /></div>)}</div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .tight { padding-top: 16px; }
+  .theme .ic { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; color: #fff; background: var(--ct); margin-bottom: 14px; }
+  .list { gap: 22px; margin-top: 28px; }
+</style>

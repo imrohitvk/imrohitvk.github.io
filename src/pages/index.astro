@@ -1,0 +1,149 @@
+---
+import Base from "../layouts/Base.astro";
+import HeroVisual from "../components/HeroVisual.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import PaperCard from "../components/PaperCard.astro";
+import Icon from "../components/Icon.astro";
+import { site, interests } from "../data/profile";
+import { projects } from "../data/projects";
+import { papers, researchThemes } from "../data/research";
+import { getCollection } from "astro:content";
+
+const featured = projects.filter((p) => p.featured);
+const posts = (await getCollection("blog")).sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, 2);
+---
+<Base>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Ph.D. Scholar · IIT Ropar</p>
+        <h1>Hi, I'm <span class="grad">Rohit Sharma</span>.</h1>
+        <p class="lead">{site.tagline}</p>
+        <p class="muted">Computing education research, live classroom polling and learning analytics, with the systems to match.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="/research/">See my research <Icon name="arrow" size={18} /></a>
+          <a class="btn btn-ghost" href="/projects/">Explore projects</a>
+        </div>
+        <ul class="social">
+          {site.socials.map((s) => (
+            <li><a href={s.href} aria-label={s.label} rel={s.href.startsWith("http") ? "me noopener" : undefined}><Icon name={s.icon} /></a></li>
+          ))}
+        </ul>
+      </div>
+      <HeroVisual />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Research focus</p>
+      <h2>What live classrooms can tell us</h2>
+      <p class="lead">Every live poll leaves a record. My work reads that record carefully, to see what questions do in a lecture, how good they are as measurements, and what learners reveal beyond right or wrong.</p>
+      <div class="grid grid-3 themes">
+        {researchThemes.map((t, i) => (
+          <div class="card reveal theme" style={`--c:${["#1e5a7a", "#2a9d8f", "#e76f51"][i]}`}>
+            <span class="ic"><Icon name={t.icon} size={24} /></span>
+            <h3>{t.title}</h3>
+            <p class="muted">{t.text}</p>
+          </div>
+        ))}
+      </div>
+      <div class="chips interests">{interests.map((i) => <span class="chip">{i}</span>)}</div>
+    </div>
+  </section>
+
+  <section class="section soft">
+    <div class="container">
+      <div class="head-row">
+        <div><p class="eyebrow">Featured work</p><h2>Projects</h2></div>
+        <a class="more" href="/projects/">All projects <Icon name="arrow" size={18} /></a>
+      </div>
+      <div class="grid grid-2">{featured.map((p) => <div class="reveal"><ProjectCard project={p} /></div>)}</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="head-row">
+        <div><p class="eyebrow">Publications</p><h2>Latest research</h2></div>
+        <a class="more" href="/research/">All research <Icon name="arrow" size={18} /></a>
+      </div>
+      <div class="grid papers">{papers.map((p, i) => <div class="reveal"><PaperCard paper={p} index={i + 1} /></div>)}</div>
+    </div>
+  </section>
+
+  {posts.length > 0 && (
+    <section class="section soft">
+      <div class="container">
+        <div class="head-row">
+          <div><p class="eyebrow">Writing</p><h2>From the blog</h2></div>
+          <a class="more" href="/blog/">All posts <Icon name="arrow" size={18} /></a>
+        </div>
+        <div class="grid grid-2">
+          {posts.map((post) => (
+            <a class="card post reveal" href={`/blog/${post.id}/`}>
+              <p class="kicker">{post.data.date.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</p>
+              <h3>{post.data.title}</h3>
+              <p class="muted">{post.data.description}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="container">
+      <div class="connect reveal">
+        <div>
+          <h2>Let's talk</h2>
+          <p>Interested in classroom analytics, collaborations, or the systems behind them? I'd be glad to hear from you.</p>
+        </div>
+        <div class="cta">
+          <a class="btn btn-light" href={`mailto:${site.email}`}><Icon name="mail" size={18} /> {site.email}</a>
+          <a class="btn btn-outline-light" href="/contact/">Contact page</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { padding: 64px 0 48px; overflow: hidden; }
+  .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; }
+  .grad { background: linear-gradient(120deg, var(--ocean), var(--teal) 55%, var(--coral)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  :global(:root[data-theme="dark"]) .grad { background: linear-gradient(120deg, #8ecae6, #5cc3b6 55%, #f4a261); -webkit-background-clip: text; background-clip: text; }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; margin: 26px 0 22px; }
+  .social { display: flex; gap: 8px; list-style: none; padding: 0; margin: 0; }
+  .social a { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px; border: 1px solid var(--border); color: var(--text); background: var(--surface); }
+  .social a:hover { border-color: var(--teal); color: var(--teal); }
+
+
+  .themes { margin-top: 34px; }
+  .theme .ic { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; color: #fff; background: var(--ct); margin-bottom: 16px; }
+  .interests { margin-top: 28px; }
+
+  .head-row { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
+  .head-row h2 { margin: 0; }
+  .more { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; text-decoration: none; }
+  .papers { gap: 20px; }
+  .post .kicker { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; }
+
+  .connect {
+    display: flex; justify-content: space-between; align-items: center; gap: 28px; flex-wrap: wrap;
+    padding: 44px; border-radius: 28px; color: #fff;
+    background: linear-gradient(135deg, var(--navy), var(--ocean) 60%, var(--teal));
+  }
+  .connect h2 { color: #fff; }
+  .connect p { color: rgba(255, 255, 255, 0.85); margin: 0; max-width: 36rem; }
+  .connect .cta { margin: 0; }
+  .btn-light { background: #fff; color: var(--navy); }
+  .btn-light:hover { color: var(--navy); }
+  .btn-outline-light { border-color: rgba(255, 255, 255, 0.6); color: #fff; }
+  .btn-outline-light:hover { border-color: #fff; color: #fff; }
+
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 36px; }
+    .connect { padding: 30px; }
+  }
+</style>

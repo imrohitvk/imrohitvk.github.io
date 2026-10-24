@@ -1,0 +1,80 @@
+---
+// Animated "live class": a teacher's speech wave, a poll card filling with answers, and students lighting up.
+const seats = Array.from({ length: 12 }, (_, i) => ({
+  x: 70 + (i % 6) * 62,
+  y: 300 + Math.floor(i / 6) * 70,
+  d: ((i * 0.45) % 5.4).toFixed(2),
+  c: ["#e9c46a", "#2a9d8f", "#8ecae6", "#e76f51"][(i + Math.floor(i / 6)) % 4],
+}));
+const bars = [
+  { label: "True", w: 230, c: "#2a9d8f", pct: "72%" },
+  { label: "False", w: 90, c: "#e76f51", pct: "28%" },
+];
+---
+<div class="hero-visual" aria-hidden="true">
+  <svg viewBox="0 0 480 460" role="img">
+    <defs>
+      <linearGradient id="hv-bg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#0f2747" /><stop offset="0.65" stop-color="#1e5a7a" /><stop offset="1" stop-color="#2a9d8f" />
+      </linearGradient>
+    </defs>
+    <rect x="0" y="0" width="480" height="460" rx="32" fill="url(#hv-bg)" />
+    {Array.from({ length: 60 }, (_, i) => (
+      <circle cx={24 + (i % 15) * 31} cy={24 + Math.floor(i / 15) * 26} r="1.6" fill="#fff" opacity="0.1" />
+    ))}
+
+    <!-- speech wave -->
+    <g transform="translate(40 52)">
+      <circle cx="22" cy="22" r="22" fill="#2a9d8f" />
+      <g transform="translate(10 10)" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round">
+        <rect x="8" y="1" width="8" height="13" rx="4" /><path d="M3 11a9 9 0 0 0 18 0M12 20v4" />
+      </g>
+      {Array.from({ length: 22 }, (_, i) => (
+        <rect class="wave" x={60 + i * 15} y="10" width="7" height="24" rx="3.5" fill="#fff" opacity="0.85"
+          style={`animation-delay:${(i * 0.07).toFixed(2)}s`} />
+      ))}
+    </g>
+
+    <!-- poll card -->
+    <g transform="translate(40 120)">
+      <rect width="400" height="140" rx="18" fill="#fff" />
+      <text x="22" y="34" font-size="12" font-weight="700" fill="#2a9d8f" letter-spacing="1.5">LIVE POLL</text>
+      <circle class="live" cx="106" cy="30" r="4.5" fill="#1a9e55" />
+      <text x="22" y="60" font-size="16" font-weight="700" fill="#17202b">A primary key can hold NULL values.</text>
+      {bars.map((b, i) => (
+        <g transform={`translate(22 ${78 + i * 28})`}>
+          <text x="0" y="15" font-size="13" font-weight="600" fill="#5b6676">{b.label}</text>
+          <rect x="52" y="3" width="280" height="16" rx="8" fill="#f0f2f5" />
+          <rect class="fill" x="52" y="3" width={b.w} height="16" rx="8" fill={b.c} style={`animation-delay:${i * 0.25}s`} />
+          <text x="342" y="16" font-size="13" font-weight="700" fill="#17202b">{b.pct}</text>
+        </g>
+      ))}
+    </g>
+
+    <!-- students answering -->
+    {seats.map((s) => (
+      <g>
+        <circle class="stu" cx={s.x} cy={s.y} r="11" fill="#fff" style={`animation-delay:${s.d}s`} />
+        <path class="stu" d={`M${s.x - 18} ${s.y + 32} a18 16 0 0 1 36 0z`} fill="#fff" style={`animation-delay:${s.d}s`} />
+        <g class="ans" style={`animation-delay:${s.d}s`}>
+          <rect x={s.x + 8} y={s.y - 32} width="22" height="18" rx="6" fill={s.c} />
+          <path d={`M${s.x + 13} ${s.y - 23} l3.5 3.5 6 -7`} fill="none" stroke="#0f2747" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+      </g>
+    ))}
+  </svg>
+</div>
+
+<style>
+  .hero-visual svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 24px 48px rgba(15, 39, 71, 0.28)); }
+  .wave { transform-box: fill-box; transform-origin: center; animation: wave 1.2s ease-in-out infinite alternate; }
+  @keyframes wave { 0% { transform: scaleY(0.25); } 100% { transform: scaleY(1); } }
+  .fill { transform-box: fill-box; transform-origin: left center; animation: fill 5.4s ease-in-out infinite; }
+  @keyframes fill { 0% { transform: scaleX(0); } 30%, 85% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
+  .live { transform-box: fill-box; transform-origin: center; animation: live 1.6s ease-in-out infinite; }
+  @keyframes live { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .stu { opacity: 0.35; animation: stu 5.4s ease-in-out infinite; }
+  @keyframes stu { 0%, 100% { opacity: 0.35; } 10%, 45% { opacity: 1; } 60% { opacity: 0.35; } }
+  .ans { transform-box: fill-box; transform-origin: 50% 100%; transform: scale(0); animation: ans 5.4s ease-in-out infinite; }
+  @keyframes ans { 0%, 4% { transform: scale(0); } 12%, 42% { transform: scale(1); } 52%, 100% { transform: scale(0); } }
+</style>

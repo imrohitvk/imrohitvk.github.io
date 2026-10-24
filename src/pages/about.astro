@@ -1,0 +1,137 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import { intro, experience, education, skills, certifications, languages, hobbies, site } from "../data/profile";
+---
+<Base title="About" description={`About ${site.name}: experience, education, skills and certifications.`}>
+  <section class="page-hero">
+    <div class="container about-hero">
+      <img class="avatar" src="/images/rohit-sharma.jpg" alt="Rohit Sharma" width="160" height="160" />
+      <div>
+        <p class="eyebrow">About me</p>
+        <h1>{site.name}</h1>
+        <p class="lead">{site.role} at {site.org}.</p>
+        <p class="where muted"><Icon name="pin" size={18} /> {site.location}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="container">
+      <div class="prose-wide">{intro.map((p) => <p class="big">{p}</p>)}</div>
+    </div>
+  </section>
+
+  <section class="section soft">
+    <div class="container">
+      <p class="eyebrow">Experience</p>
+      <h2>Where I've worked</h2>
+      <ol class="timeline">
+        {experience.map((j) => (
+          <li class="reveal">
+            <span class:list={["node", { now: j.current }]} aria-hidden="true"></span>
+            <div class="card">
+              <div class="row">
+                <div>
+                  <h3>{j.role}</h3>
+                  <p class="org">{j.org} <span class="muted">· {j.type}</span></p>
+                </div>
+                <span class="when"><Icon name="calendar" size={16} /> {j.period}</span>
+              </div>
+              <p class="muted place">{j.place}</p>
+              <ul>{j.points.map((pt) => <li>{pt}</li>)}</ul>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Education</p>
+      <h2>Studies</h2>
+      <div class="grid grid-2">
+        {education.map((e) => (
+          <div class="card reveal edu">
+            <span class="ic"><Icon name="cap" size={22} /></span>
+            <h3>{e.degree}</h3>
+            <p class="org">{e.school}</p>
+            <p class="muted small">{e.period} · {e.place}</p>
+            <div class="chips"><span class="chip score">{e.score}</span>{e.note && <span class="chip">{e.note}</span>}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section soft">
+    <div class="container">
+      <p class="eyebrow">Skills</p>
+      <h2>Toolbox</h2>
+      <div class="grid grid-3">
+        {skills.map((s) => (
+          <div class="card reveal">
+            <h3>{s.group}</h3>
+            <div class="chips">{s.items.map((i) => <span class="chip">{i}</span>)}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid grid-2 extras">
+      <div>
+        <p class="eyebrow">Certifications</p>
+        <h2>Courses &amp; certificates</h2>
+        <ul class="list">
+          {certifications.map((c) => (
+            <li><Icon name="award" size={18} /> <span><strong>{c.name}</strong> <span class="muted">· {c.by} · {c.date}</span></span></li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow">Beyond work</p>
+        <h2>Languages &amp; interests</h2>
+        <ul class="list">
+          {languages.map((l) => <li><Icon name="globe" size={18} /> <span><strong>{l.name}</strong> <span class="muted">· {l.level}</span></span></li>)}
+        </ul>
+        <div class="chips">{hobbies.map((h) => <span class="chip">{h}</span>)}</div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .about-hero { display: flex; align-items: center; gap: 32px; flex-wrap: wrap; }
+  .avatar {
+    width: 160px; height: 160px; border-radius: 50%; object-fit: cover; flex: none;
+    box-shadow: 0 0 0 5px var(--surface), 0 0 0 8px var(--teal), var(--shadow-lg);
+  }
+  .where { display: inline-flex; align-items: center; gap: 6px; margin: 0; }
+  .tight { padding-top: 24px; }
+  .prose-wide { max-width: 52rem; }
+  .big { font-size: 1.12rem; }
+
+  .timeline { list-style: none; margin: 32px 0 0; padding: 0 0 0 30px; position: relative; }
+  .timeline::before { content: ""; position: absolute; left: 9px; top: 6px; bottom: 6px; width: 2px; background: var(--border); }
+  .timeline > li { position: relative; margin-bottom: 20px; }
+  .node { position: absolute; left: -30px; top: 30px; width: 20px; height: 20px; border-radius: 50%; background: var(--surface); border: 3px solid var(--ocean); }
+  .node.now { border-color: var(--teal); box-shadow: 0 0 0 6px color-mix(in srgb, var(--teal) 20%, transparent); }
+  .row { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .row h3 { margin-bottom: 2px; }
+  .org { font-weight: 600; margin: 0 0 4px; }
+  .when { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 0.88rem; color: var(--teal); white-space: nowrap; }
+  .place { font-size: 0.9rem; margin-bottom: 8px; }
+  .timeline ul { margin: 0; padding-left: 1.1em; }
+
+  .edu .ic { width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center; color: #fff; background: var(--ocean); margin-bottom: 14px; }
+  .small { font-size: 0.9rem; }
+  .score { background: color-mix(in srgb, var(--teal) 14%, transparent); color: var(--teal); border-color: transparent; }
+
+  .extras { gap: 48px; }
+  .list { list-style: none; padding: 0; margin: 0 0 18px; }
+  .list li { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .list li :global(svg) { flex: none; margin-top: 4px; color: var(--teal); }
+</style>

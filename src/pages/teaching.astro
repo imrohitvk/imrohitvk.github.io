@@ -1,0 +1,56 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import { teaching } from "../data/research";
+---
+<Base title="Teaching" description="Teaching by Rohit Sharma: Teaching Assistant for NPTEL Deep Learning and for DBMS, Software Engineering Practices and Computer Networks at IIT Ropar.">
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Teaching</p>
+      <h1>In the classroom</h1>
+      <p class="lead">
+        I have been a Teaching Assistant at IIT Ropar since July 2024, and for the NPTEL Deep Learning course since January 2026.
+        Teaching keeps my research honest: it is where I see what students actually find hard.
+      </p>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="container grid grid-2">
+      {teaching.map((t) => (
+        <article class="card lift course reveal" style={`--c:${t.color}`}>
+          <div class="head">
+            <span class="ic"><Icon name={t.org === "NPTEL" ? "globe" : "board"} size={22} /></span>
+            <span class="org">{t.org}</span>
+          </div>
+          <h3>{t.title}</h3>
+          <p class="muted role">{t.role}</p>
+          <ul class="runs">
+            {t.runs.map((r) => (
+              <li>
+                <span class:list={["dot", { now: r.current }]} aria-hidden="true"></span>
+                <strong>{r.period}</strong> <span class="muted">· {r.label}</span>
+              </li>
+            ))}
+          </ul>
+          <div class="chips">{t.work.map((w) => <span class="chip">{w}</span>)}</div>
+        </article>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .tight { padding-top: 8px; }
+  .course { border-top: 4px solid var(--cl); }
+  .head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .ic { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; color: #fff; background: var(--ct); }
+  .org { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  h3 { font-size: 1.35rem; margin-bottom: 2px; }
+  .role { margin-bottom: 14px; }
+  .runs { list-style: none; padding: 0; margin: 0 0 18px; }
+  .runs li { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); opacity: 0.55; flex: none; }
+  .dot.now { opacity: 1; }
+  .dot.now { background: #1a9e55; box-shadow: 0 0 0 4px color-mix(in srgb, #1a9e55 22%, transparent); }
+</style>

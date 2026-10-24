@@ -1,0 +1,62 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import { site } from "../data/profile";
+const handles: Record<string, string> = {
+  GitHub: "@imrohitvk", LinkedIn: "in/imrohitvk", X: "@imrohitvk", Email: site.email,
+};
+---
+<Base title="Contact" description={`Get in touch with ${site.name}.`}>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Contact</p>
+      <h1>Get in touch</h1>
+      <p class="lead">For research collaborations, questions about Spandan or Vi-SlideS, or anything else, email is the best way to reach me.</p>
+      <div class="mail card">
+        <span class="ic"><Icon name="mail" size={24} /></span>
+        <a class="addr" href={`mailto:${site.email}`}>{site.email}</a>
+        <button class="btn btn-ghost copy" type="button" data-copy={site.email}>
+          <Icon name="copy" size={16} /> <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="container grid grid-3">
+      {site.socials.filter((s) => s.icon !== "mail").map((s) => (
+        <a class="card lift social" href={s.href} rel="me noopener">
+          <span class="ic"><Icon name={s.icon} size={22} /></span>
+          <span><strong>{s.label}</strong><span class="muted handle">{handles[s.label]}</span></span>
+          <Icon name="external" size={18} class="ext" />
+        </a>
+      ))}
+    </div>
+    <p class="container muted where"><Icon name="pin" size={18} /> {site.org}, {site.location}</p>
+  </section>
+</Base>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach((b) =>
+    b.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(b.dataset.copy ?? "");
+        const label = b.querySelector("span");
+        if (label) { label.textContent = "Copied"; setTimeout(() => (label.textContent = "Copy"), 1800); }
+      } catch {}
+    }),
+  );
+</script>
+
+<style>
+  .tight { padding-top: 8px; }
+  .mail { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 28px; max-width: 640px; }
+  .ic { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; color: #fff; background: var(--ocean); flex: none; }
+  .addr { font-size: 1.25rem; font-weight: 800; text-decoration: none; color: var(--accent-strong); flex: 1; word-break: break-all; }
+  .copy { padding: 8px 16px; font-size: 0.9rem; cursor: pointer; font-family: inherit; }
+  .social { display: flex; align-items: center; gap: 16px; }
+  .social .ic { background: var(--teal); }
+  .handle { display: block; font-size: 0.92rem; }
+  .social :global(.ext) { margin-left: auto; color: var(--muted); }
+  .where { display: flex; align-items: center; gap: 6px; margin-top: 28px; }
+</style>

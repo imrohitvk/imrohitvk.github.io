@@ -1,0 +1,30 @@
+---
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+const date = post.data.date.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+---
+<Base title={post.data.title} description={post.data.description} type="article">
+  <article class="section">
+    <div class="container prose">
+      <a class="back" href="/blog/"><Icon name="arrow" size={16} class="flip" /> All posts</a>
+      <p class="kicker">{date}</p>
+      <h1>{post.data.title}</h1>
+      <Content />
+    </div>
+  </article>
+</Base>
+
+<style>
+  .back { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; text-decoration: none; margin-bottom: 22px; }
+  .back :global(.flip) { transform: rotate(180deg); }
+  .kicker { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; }
+  h1 { font-size: clamp(2rem, 4.5vw, 2.8rem); }
+</style>

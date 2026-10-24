@@ -1,0 +1,38 @@
+---
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+import { getCollection } from "astro:content";
+const posts = (await getCollection("blog")).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const fmt = (d: Date) => d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+---
+<Base title="Blog" description="Notes and updates from Rohit Sharma on research, projects and teaching.">
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Blog</p>
+      <h1>Notes &amp; updates</h1>
+      <p class="lead">Research updates, case studies and things I have learned along the way.</p>
+      <a class="rss" href="/rss.xml"><Icon name="rss" size={16} /> Subscribe via RSS</a>
+    </div>
+  </section>
+  <section class="section tight">
+    <div class="container list">
+      {posts.map((post) => (
+        <a class="card lift post" href={`/blog/${post.id}/`}>
+          <p class="kicker">{fmt(post.data.date)}{post.data.tags.length > 0 && ` · ${post.data.tags.join(", ")}`}</p>
+          <h2>{post.data.title}</h2>
+          <p class="muted">{post.data.description}</p>
+          <span class="read">Read post <Icon name="arrow" size={16} /></span>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .tight { padding-top: 8px; }
+  .rss { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; text-decoration: none; margin-top: 6px; }
+  .list { display: grid; gap: 18px; max-width: 820px; }
+  .kicker { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; }
+  .post h2 { font-size: 1.45rem; }
+  .read { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--accent); }
+</style>

@@ -1,8 +1,8 @@
 ---
-layout: post
-title:  "Welcome to my website!"
-date:   2026-03-11 10:00:00 +0530
-categories: general
+title: "Welcome to my website!"
+date: 2026-03-11
+description: "Why this site exists and what you will find here: research updates, case studies, projects and notes."
+tags: [general]
 ---
 
 Welcome to my personal website! I'm excited to share my research, projects, and thoughts here.

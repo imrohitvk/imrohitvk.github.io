@@ -1,0 +1,99 @@
+---
+import Icon from "./Icon.astro";
+
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/about/", label: "About" },
+  { href: "/research/", label: "Research" },
+  { href: "/projects/", label: "Projects" },
+  { href: "/teaching/", label: "Teaching" },
+  { href: "/blog/", label: "Blog" },
+  { href: "/contact/", label: "Contact" },
+];
+const path = Astro.url.pathname;
+const isActive = (href: string) => (href === "/" ? path === "/" : path.startsWith(href));
+---
+<header class="site-header">
+  <div class="container bar">
+    <a class="brand" href="/" aria-label="Rohit Sharma, home">
+      <img class="mark" src="/images/rohit-sharma.jpg" alt="" width="38" height="38" />
+      <span class="brand-text">Rohit Sharma</span>
+    </a>
+
+    <nav aria-label="Main">
+      <ul id="nav-list" class="nav-list">
+        {links.map((l) => (
+          <li><a href={l.href} class:list={[{ active: isActive(l.href) }]} aria-current={isActive(l.href) ? "page" : undefined}>{l.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="actions">
+      <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch colour theme">
+        <span class="sun"><Icon name="sun" /></span>
+        <span class="moon"><Icon name="moon" /></span>
+      </button>
+      <button class="icon-btn menu-btn" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-list">
+        <span class="open"><Icon name="menu" /></span>
+        <span class="shut"><Icon name="close" /></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  const root = document.documentElement;
+  document.getElementById("theme-toggle")?.addEventListener("click", () => {
+    const next = root.dataset.theme === "dark" ? "light" : "dark";
+    root.dataset.theme = next;
+    try { localStorage.setItem("theme", next); } catch {}
+  });
+  const menu = document.getElementById("menu-toggle");
+  menu?.addEventListener("click", () => {
+    const open = document.body.classList.toggle("menu-open");
+    menu.setAttribute("aria-expanded", String(open));
+    menu.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  });
+</script>
+
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .bar { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 16px; }
+  .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: var(--accent-strong); font-weight: 800; }
+  .mark { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--teal); }
+  .nav-list { display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; }
+  .nav-list a {
+    display: block; padding: 8px 12px; border-radius: 10px; text-decoration: none; color: var(--muted); font-weight: 600; font-size: 0.95rem;
+  }
+  .nav-list a:hover { color: var(--text); background: var(--bg-soft); }
+  .nav-list a.active { color: var(--accent-strong); background: var(--bg-soft); }
+  .actions { display: flex; gap: 6px; }
+  .icon-btn {
+    width: 40px; height: 40px; display: grid; place-items: center; border-radius: 12px; cursor: pointer;
+    border: 1px solid var(--border); background: var(--surface); color: var(--text);
+  }
+  .icon-btn:hover { border-color: var(--teal); }
+  .moon { display: none; }
+  :global(:root[data-theme="dark"]) .sun { display: none; }
+  :global(:root[data-theme="dark"]) .moon { display: inline; }
+  .menu-btn, .shut { display: none; }
+
+  @media (max-width: 960px) {
+    .menu-btn { display: grid; }
+    .brand-text { display: none; }
+    nav { position: absolute; left: 0; right: 0; top: 68px; }
+    .nav-list {
+      display: none; flex-direction: column; gap: 2px; padding: 12px 16px 18px;
+      background: var(--bg); border-bottom: 1px solid var(--border); box-shadow: var(--shadow);
+    }
+    :global(body.menu-open) .nav-list { display: flex; }
+    :global(body.menu-open) .open { display: none; }
+    :global(body.menu-open) .shut { display: inline; }
+    .nav-list a { padding: 12px 14px; font-size: 1rem; }
+  }
+</style>

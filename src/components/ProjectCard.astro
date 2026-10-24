@@ -1,0 +1,53 @@
+---
+import Icon from "./Icon.astro";
+import type { Project } from "../data/projects";
+interface Props { project: Project; detailed?: boolean }
+const { project: p, detailed = false } = Astro.props;
+// readable text colour for light brand colours (Vi-SlideS yellow)
+const ink = p.color.toLowerCase() === "#f4d03f" ? "#8a6d00" : p.color;
+---
+<article class="card lift project" data-category={p.category} style={`--c:${p.color};--ink:${ink};--dot-ink:${ink === p.color ? "#fff" : "#3d3000"}`}>
+  <div class="top">
+    <span class="dot" aria-hidden="true"><Icon name={p.icon} size={22} /></span>
+    <span class:list={["status", p.status.toLowerCase()]}>
+      {p.status === "Active" && <span class="pulse" aria-hidden="true"></span>}{p.status}
+    </span>
+  </div>
+  <h3>{p.name}</h3>
+  <p class="meta">{p.org} · {p.period}</p>
+  <p class="summary">{detailed ? p.description : p.summary}</p>
+  {detailed && (
+    <ul class="highlights">{p.highlights.map((h) => <li>{h}</li>)}</ul>
+  )}
+  <div class="chips">{p.tech.map((t) => <span class="chip">{t}</span>)}</div>
+  {p.repo && (
+    <a class="repo" href={p.repo} rel="noopener">
+      View repository <Icon name="external" size={16} />
+    </a>
+  )}
+</article>
+
+<style>
+  .project { position: relative; overflow: hidden; display: flex; flex-direction: column; }
+  .project::before {
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--cl);
+  }
+  .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .dot { width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center; color: #fff; background: var(--ct); }
+  .project[data-category] .dot { color: var(--dot-ink, #fff); }
+  .status { display: inline-flex; align-items: center; gap: 7px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 5px 11px; border-radius: 999px; background: var(--bg-soft); color: var(--muted); }
+  .status.active { background: color-mix(in srgb, #1a9e55 14%, transparent); color: #168a4a; }
+  :global(:root[data-theme="dark"]) .status.active { color: #5fd394; }
+  .pulse { width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: pl 1.6s ease-in-out infinite; }
+  @keyframes pl { 50% { opacity: 0.3; } }
+  h3 { font-size: 1.35rem; margin-bottom: 4px; }
+  .meta { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink); margin-bottom: 12px; }
+  :global(:root[data-theme="dark"]) .meta { color: var(--cl); }
+  .summary { color: var(--muted); }
+  .highlights { margin: 0 0 18px; padding-left: 1.1em; color: var(--text); font-size: 0.95rem; }
+  .highlights li { margin: 4px 0; }
+  .highlights li::marker { color: var(--cl); }
+  .chips { margin-top: auto; padding-top: 6px; }
+  .repo { display: inline-flex; align-items: center; gap: 6px; margin-top: 18px; font-weight: 700; font-size: 0.92rem; text-decoration: none; }
+</style>

@@ -1,0 +1,52 @@
+---
+import Base from "../layouts/Base.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { projects, categories } from "../data/projects";
+---
+<Base title="Projects" description="Projects by Rohit Sharma: Spandan, Vi-SlideS, the Peer Evaluation System, the Vicharanashala website and machine learning work.">
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Projects</p>
+      <h1>Things I've built</h1>
+      <p class="lead">Research systems used in real classrooms, web work for the VLED Lab, and earlier machine learning projects.</p>
+      <div class="filters" role="group" aria-label="Filter projects">
+        {categories.map((c, i) => (
+          <button type="button" class:list={["filter", { on: i === 0 }]} data-filter={c.key} aria-pressed={i === 0 ? "true" : "false"}>
+            {c.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="container grid grid-2" id="project-grid">
+      {projects.map((p) => <ProjectCard project={p} detailed />)}
+    </div>
+  </section>
+</Base>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>(".filter");
+  const cards = document.querySelectorAll<HTMLElement>("#project-grid .project");
+  buttons.forEach((b) =>
+    b.addEventListener("click", () => {
+      const f = b.dataset.filter;
+      buttons.forEach((x) => { x.classList.toggle("on", x === b); x.setAttribute("aria-pressed", String(x === b)); });
+      cards.forEach((c) => { c.hidden = f !== "all" && c.dataset.category !== f; });
+    }),
+  );
+</script>
+
+<style>
+  .tight { padding-top: 8px; }
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
+  .filter {
+    font: inherit; font-weight: 700; font-size: 0.92rem; cursor: pointer; padding: 9px 18px; border-radius: 999px;
+    border: 1.5px solid var(--border); background: var(--surface); color: var(--muted);
+  }
+  .filter:hover { border-color: var(--teal); color: var(--text); }
+  .filter.on { background: var(--navy); border-color: var(--navy); color: #fff; }
+  :global(:root[data-theme="dark"]) .filter.on { background: var(--teal); border-color: var(--teal); color: #06202a; }
+  :global(#project-grid [hidden]) { display: none; }
+</style>
